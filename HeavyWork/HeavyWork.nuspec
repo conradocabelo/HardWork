@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Conrado Basso</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/conradocabelo/HeavyWork</projectUrl>
+    <iconUrl>https://github.com/conradocabelo/HeavyWork/</iconUrl>
+    <description>Dependencia de execução de teste de carga</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>C# Test</tags>
+  </metadata>
+</package>
