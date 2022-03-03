@@ -36,7 +36,7 @@ namespace HeavyWork.Work
                 if (stopwatch.IsRunning)
                     stopwatch.Stop();
 
-                testDataCollected.ErrorMessage = error.Message;
+                testDataCollected.ErrorMessage = error.InnerException.Message;
                 testDataCollected.Status = StatusTest.Error;
             }
             finally

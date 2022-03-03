@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HeavyWork.Entities;
+using HeavyWork.Extensions;
+using HeavyWork.Persistence;
 
 namespace HeavyWork.Work
 {
     public class MachineWork
     {
         private readonly TestConfiguration _configuration;
+        private readonly IPersistence _persistence;
+        private readonly string _indexName;
 
-        public MachineWork(TestConfiguration testConfiguration) =>
-             _configuration = testConfiguration;
-
+        public MachineWork(string indexName, TestConfiguration testConfiguration) 
+        {
+            _configuration = testConfiguration;
+            _indexName = indexName;
+            _persistence = _configuration.CreatePersistence();
+        }
+         
         public List<TestDataCollected> Work(string TestName, Action action)
         {
             if (_configuration.NumberThreads == 1)
@@ -42,7 +50,17 @@ namespace HeavyWork.Work
             List<TestDataCollected> dataCollected = Enumerable.Range(0, _configuration.NumberRequests)
                                                               .Select(t => new TestDataCollected()).ToList();
 
-            return dataCollected.Select(t => new WorkerTest(TestName, action).ExecuteWork(t)).ToList();
+            return dataCollected.Select(t => {
+                var data = new WorkerTest(TestName, action).ExecuteWork(t);
+                Persist(t);
+                return data;
+            }).ToList();
+        }
+
+        private void Persist(TestDataCollected testDataCollected)
+        {
+            if(this._configuration.TypePersistent != TypePersistent.NoPersist)
+                _persistence.PersistData(testDataCollected);
         }
     }
 }
